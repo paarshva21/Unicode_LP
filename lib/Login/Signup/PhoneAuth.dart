@@ -37,97 +37,101 @@ class _PhoneAuthState extends State<PhoneAuth> {
                       image: AssetImage("assets/blacked.jpg"),
                       fit: BoxFit.cover,
                       opacity: 0.5)),
-              child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  body: GestureDetector(
-                      onTap: () {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
+              child: Center(
+                child: Scaffold(
+                    backgroundColor: Colors.transparent,
+                    body: GestureDetector(
+                        onTap: () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
 
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                      },
-                      child: SingleChildScrollView(
-                          child: Column(children: [
-                        SizedBox(
-                          width: 20.0,
-                          height: 30.0,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(right: 300.0),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(Icons.arrow_back_sharp),
-                              color: Colors.green,
-                            ),
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+                        },
+                        child: SingleChildScrollView(
+                            child: Center(
+                              child: Column(children: [
+                          SizedBox(
+                              width: 20.0,
+                              height: 30.0,
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 230),
-                          child: Text(
-                            "Login via Phone Number.",
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(20.0)),
-                        Container(
-                            padding: EdgeInsets.only(left: 35.0, right: 35.0),
-                            child: IntlPhoneField(
-                              controller: phoneController,
-                              showCountryFlag: false,
-                              showDropdownIcon: true,
-                              initialCountryCode: 'IN',
-                              onCountryChanged: (country) {
-                                countryDial = "+" + country.dialCode;
-                              },
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(13),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "   Phone No",
-                                  hintStyle: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
-                                  errorStyle: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w500),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7.0),
-                                      borderSide: BorderSide.none)),
-                            )),
-                        Padding(padding: EdgeInsets.all(20.0)),
-                        Container(
-                            width: 135.0,
-                            height: 40.0,
-                            color: Colors.green,
-                            child: TextButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  phoneNo = phoneController.text.trim();
-                                  verifyPhone(
-                                      PhoneNo: phoneNo,
-                                      CountryCode: countryDial,
-                                      context: context);
-                                }
-                              },
-                              child: Text(
-                                "Send OTP",
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                          Container(
+                              padding: EdgeInsets.only(right: 300.0),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(Icons.arrow_back_sharp),
+                                  color: Colors.green,
                                 ),
                               ),
-                            )),
-                      ]))))),
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(top: 230),
+                              child: Text(
+                                "Login via Phone Number.",
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                          ),
+                          Padding(padding: EdgeInsets.all(20.0)),
+                          Container(
+                                padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                                child: IntlPhoneField(
+                                  controller: phoneController,
+                                  showCountryFlag: false,
+                                  showDropdownIcon: true,
+                                  initialCountryCode: 'IN',
+                                  onCountryChanged: (country) {
+                                    countryDial = "+" + country.dialCode;
+                                  },
+                                  decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(13),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      hintText: "   Phone No",
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey),
+                                      errorStyle: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w500),
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(7.0),
+                                          borderSide: BorderSide.none)),
+                                )),
+                          Padding(padding: EdgeInsets.all(20.0)),
+                          Container(
+                                width: 135.0,
+                                height: 40.0,
+                                color: Colors.green,
+                                child: TextButton(
+                                  onPressed: () {
+                                    if (formKey.currentState!.validate()) {
+                                      phoneNo = phoneController.text.trim();
+                                      verifyPhone(
+                                          PhoneNo: phoneNo,
+                                          CountryCode: countryDial,
+                                          context: context);
+                                    }
+                                  },
+                                  child: Text(
+                                    "Send OTP",
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )),
+                        ]),
+                            )))),
+              )),
         ));
   }
 }
