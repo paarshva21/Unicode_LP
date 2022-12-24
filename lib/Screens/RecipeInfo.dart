@@ -50,6 +50,8 @@ class _RecipeInfoState extends State<RecipeInfo> {
                 backgroundColor: Colors.green,
                 actions: [
                   Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.only(right: 10.0),
                     child: StatefulBuilder(
                       builder: (BuildContext context,

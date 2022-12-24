@@ -28,6 +28,8 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
         key: formKey,
         child: SafeArea(
           child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("assets/blacked.jpg"),

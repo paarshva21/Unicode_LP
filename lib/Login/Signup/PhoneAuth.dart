@@ -32,6 +32,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
         key: formKey,
         child: SafeArea(
           child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("assets/blacked.jpg"),
@@ -50,12 +52,12 @@ class _PhoneAuthState extends State<PhoneAuth> {
                         },
                         child: SingleChildScrollView(
                             child: Center(
-                              child: Column(children: [
-                          SizedBox(
+                          child: Column(children: [
+                            SizedBox(
                               width: 20.0,
                               height: 30.0,
-                          ),
-                          Container(
+                            ),
+                            Container(
                               padding: EdgeInsets.only(right: 300.0),
                               child: CircleAvatar(
                                 backgroundColor: Colors.white,
@@ -67,8 +69,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                   color: Colors.green,
                                 ),
                               ),
-                          ),
-                          Container(
+                            ),
+                            Container(
                               padding: EdgeInsets.only(top: 230),
                               child: Text(
                                 "Login via Phone Number.",
@@ -78,10 +80,11 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                          ),
-                          Padding(padding: EdgeInsets.all(20.0)),
-                          Container(
-                                padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                            ),
+                            Padding(padding: EdgeInsets.all(20.0)),
+                            Container(
+                                padding:
+                                    EdgeInsets.only(left: 35.0, right: 35.0),
                                 child: IntlPhoneField(
                                   controller: phoneController,
                                   showCountryFlag: false,
@@ -102,11 +105,12 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                           color: Colors.red,
                                           fontWeight: FontWeight.w500),
                                       border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(7.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7.0),
                                           borderSide: BorderSide.none)),
                                 )),
-                          Padding(padding: EdgeInsets.all(20.0)),
-                          Container(
+                            Padding(padding: EdgeInsets.all(20.0)),
+                            Container(
                                 width: 135.0,
                                 height: 40.0,
                                 color: Colors.green,
@@ -129,8 +133,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                     ),
                                   ),
                                 )),
-                        ]),
-                            )))),
+                          ]),
+                        )))),
               )),
         ));
   }
