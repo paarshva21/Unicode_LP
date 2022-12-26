@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
                               height: 30.0,
                             ),
                             Container(
-                              padding: EdgeInsets.only(right: 320.0),
+                              padding: EdgeInsets.only(right: 300.0),
                               child: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 child: IconButton(
