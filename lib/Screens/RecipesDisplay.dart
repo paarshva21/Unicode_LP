@@ -4,10 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/Models/Utils.dart';
-import '../Models/models.dart';
 import 'RecipeInfo.dart';
 import 'UserPage.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import '../HomePage.dart';
+import '../Login/Signup/GoogleClassSignIn.dart';
+import '../Models/Models.dart';
+import 'AboutUs.dart';
+import 'Profile.dart';
+import 'Setting.dart';
 
 class RecipesDisplay extends StatefulWidget {
   @override
@@ -185,7 +191,7 @@ class _RecipeCardsState extends State<RecipeCards> {
                             child: Text(
                               "Vegeterian",
                               style: TextStyle(
-                                  color: Colors.green,
+                                  color: Colors.redAccent,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -485,4 +491,118 @@ class Fav {
       image: json["image"],
       id: json['id'],
       instructions: json['instructions']);
+}
+
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[buildHeader(context), buildMenuItems(context)],
+        ),
+      ),
+    );
+  }
+
+  Widget buildHeader(BuildContext context) => Container(
+    padding: EdgeInsets.only(top: 20.0),
+  );
+
+  Widget buildMenuItems(BuildContext context) => Container(
+      padding: EdgeInsets.all(24.0),
+      child: Wrap(runSpacing: 16, children: [
+        Column(children: <Widget>[
+          ListTile(
+            leading: Icon(
+              Icons.person,
+              color: Colors.green,
+              size: 30,
+            ),
+            title: Text(
+              "Profile",
+              style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20),
+            ),
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Profile()));
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.info,
+              color: Colors.green,
+              size: 30,
+            ),
+            title: Text("About Us",
+                style: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20)),
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => AboutUs()));
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.settings,
+              color: Colors.green,
+              size: 30,
+            ),
+            title: Text("Settings",
+                style: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20)),
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Setting()));
+            },
+          ),
+          Divider(
+            color: Colors.green,
+            thickness: 1,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.logout,
+              color: Colors.green,
+              size: 30,
+            ),
+            title: Text("Logout",
+                style: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20)),
+            onTap: () {
+              final user = FirebaseAuth.instance.currentUser;
+              try {
+                if (user?.photoURL != null) {
+                  final provider =
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
+                  provider.googleLogout();
+                } else {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => HomePage()),
+                    ModalRoute.withName('/'),
+                  );
+                }
+              } on FirebaseAuthException catch (e) {
+                print(e.message);
+                Utils.showSnackBar(e.message);
+              }
+            },
+          ),
+        ]),
+      ]));
 }
