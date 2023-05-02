@@ -45,7 +45,7 @@ class GoogleSignInProvider extends ChangeNotifier {
         .set({'Email': _user?.email, 'Password': 'NA'});
   }
 
-  //checks if doc exists or not, so as to create duplicates in Firestore
+  //checks if doc exists or not, so as to not create duplicates in Firestore
   Future<bool> checkIfDocExists() async {
     var doc = await FirebaseFirestore.instance
         .collection("Email Users")
