@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/Login/Login.dart';
@@ -11,17 +12,17 @@ Future main() async {
   await Firebase.initializeApp();
   runApp(ChangeNotifierProvider(
     create: (context) => GoogleSignInProvider(),
-    child: MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.light
+    child: AdaptiveTheme(
+      light: ThemeData(brightness: Brightness.light),
+      dark: ThemeData(brightness: Brightness.dark),
+      initial: AdaptiveThemeMode.light,
+      builder: (theme, darkTheme) => MaterialApp(
+        theme: theme,
+        darkTheme: darkTheme,
+        scaffoldMessengerKey: messengerKey,
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark
-      ),
-      themeMode: ThemeMode.system,
-      scaffoldMessengerKey: messengerKey,
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
     ),
   ));
 }

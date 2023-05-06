@@ -1,8 +1,8 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-//UI Of Settings page (However, Dark Mode works if you turn it on on your phone
-// itself). Used the settings_ui package for this.
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
 
@@ -11,8 +11,15 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  bool isSwitched1 = false;
-  bool isSwitched2 = false;
+  bool? dark;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDark();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,68 +28,83 @@ class _SettingState extends State<Setting> {
             title: Text("Settings"),
             backgroundColor: Colors.green,
           ),
-          body: SettingsList(sections: [
-            SettingsSection(
-                title: Text(
-                  "Appearance",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.green),
-                ),
-                tiles: <SettingsTile>[
-                  SettingsTile.switchTile(
-                    initialValue: isSwitched1,
-                    leading: Icon(Icons.dark_mode_outlined),
-                    title: Text("Dark theme"),
-                    onToggle: (value) {
-                      setState(() {
-                        isSwitched1 = value;
-                      });
-                    },
+          body: FutureBuilder(
+            future: getDark(),
+            builder: (context, snapshot) => SettingsList(sections: [
+              SettingsSection(
+                  title: Text(
+                    "Appearance",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green),
                   ),
-                  SettingsTile(
-                    leading: Icon(Icons.display_settings),
-                    title: Text('Display'),
+                  tiles: <SettingsTile>[
+                    SettingsTile.switchTile(
+                      initialValue: dark ?? false,
+                      leading: Icon(Icons.dark_mode_outlined),
+                      title: Text("Dark theme"),
+                      onToggle: (value) async {
+                        var prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('dark', value);
+                        print(dark);
+                        setState(() {
+                          value
+                              ? AdaptiveTheme.of(context).setDark()
+                              : AdaptiveTheme.of(context).setLight();
+                          dark = value;
+                        });
+                      },
+                    ),
+                    SettingsTile(
+                      leading: Icon(Icons.display_settings),
+                      title: Text('Display'),
+                    ),
+                  ]),
+              SettingsSection(
+                  title: Text(
+                    "Privacy",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green),
                   ),
-                ]),
-            SettingsSection(
-                title: Text(
-                  "Privacy",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.green),
-                ),
-                tiles: <SettingsTile>[
-                  SettingsTile(
-                    leading: Icon(Icons.privacy_tip_outlined),
-                    title: Text("Permissions"),
+                  tiles: <SettingsTile>[
+                    SettingsTile(
+                      leading: Icon(Icons.privacy_tip_outlined),
+                      title: Text("Permissions"),
+                    ),
+                    SettingsTile(
+                      leading: Icon(Icons.security_outlined),
+                      title: Text('Security'),
+                    ),
+                  ]),
+              SettingsSection(
+                  title: Text(
+                    "Accounts",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green),
                   ),
-                  SettingsTile(
-                    leading: Icon(Icons.security_outlined),
-                    title: Text('Security'),
-                  ),
-                ]),
-            SettingsSection(
-                title: Text(
-                  "Accounts",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.green),
-                ),
-                tiles: <SettingsTile>[
-                  SettingsTile(
-                    leading: Icon(Icons.supervised_user_circle_outlined),
-                    title: Text("Multiple Users"),
-                  ),
-                  SettingsTile(
-                    leading: Icon(Icons.feedback_outlined),
-                    title: Text('Feedback'),
-                  ),
-                ]),
-          ])),
+                  tiles: <SettingsTile>[
+                    SettingsTile(
+                      leading: Icon(Icons.supervised_user_circle_outlined),
+                      title: Text("Multiple Users"),
+                    ),
+                    SettingsTile(
+                      leading: Icon(Icons.feedback_outlined),
+                      title: Text('Feedback'),
+                    ),
+                  ]),
+            ]),
+          )),
     );
+  }
+
+  Future<void> getDark() async {
+    var prefs = await SharedPreferences.getInstance();
+    dark = prefs.getBool('dark');
+    print(dark);
   }
 }
